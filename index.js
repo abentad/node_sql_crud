@@ -23,7 +23,7 @@ app.use(express.json());
 
 //routes
 //add new product
-app.post('/products',(req,res)=>{
+app.post('/product',(req,res)=>{
     const { name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber} = req.body;
     mysqlConnection.query("INSERT INTO products(name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber)\
      VALUES ('"+ name +"','"+price+"','" +description+"','"+category+"','"+datePosted+"','"+posterId+"','"+posterName+"','"+posterProfileAvatar+"','"+posterPhoneNumber+"')"
@@ -51,7 +51,7 @@ app.get('/product',(req,res)=>{
 });
 
 //update product
-app.put('/products',(req,res)=>{
+app.put('/product',(req,res)=>{
     const { id, name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber} = req.body;
     mysqlConnection.query("UPDATE products SET name='"+ name +"',price='"+ price +"',description='"+ description +"',category='"+ category +"',datePosted='"+ datePosted +"'\
     ,posterId='"+ posterId +"',posterName='"+ posterName +"',posterProfileAvatar='"+ posterProfileAvatar +"',posterPhoneNumber='"+ posterPhoneNumber +"' WHERE id = ?",[id]
@@ -66,6 +66,64 @@ app.delete('/product',(req,res)=>{
     //TODO: Remeber to remove the product image file from file system when you host the api to server
     const { id } = req.query;
     mysqlConnection.query('DELETE FROM products WHERE id = ?', [id], (error, rows, fields)=>{
+        if(error) console.log(error);
+        else res.json({message: 'Deleted Successfully'});
+    });
+});
+
+
+
+
+//
+//
+//
+//
+//
+//
+//add new user
+app.post('/user',(req,res)=>{
+    const { username, email, phoneNumber, password, profile_image, dateJoined} = req.body;
+    mysqlConnection.query("INSERT INTO users(username, email, phoneNumber, password, profile_image, dateJoined)\
+     VALUES ('"+ username +"','"+email+"','" +phoneNumber+"','"+password+"','"+profile_image+"','"+dateJoined+"')"
+     ,(error, rows, fields)=>{
+        if(error) console.log(error);
+        else res.json('Added successfully');
+    });
+});
+
+//get all users
+app.get('/users',(req,res)=>{
+    mysqlConnection.query("SELECT * FROM users",(error, rows, fields)=>{
+        if(error) console.log(error);
+        else res.json(rows);
+    });
+});
+
+//get specific user by their id
+app.get('/user',(req,res)=>{
+    const { id } = req.query;
+    mysqlConnection.query('SELECT * FROM users WHERE id = ?', [id], (error, rows, fields)=>{
+        if(error) console.log(error);
+        else res.json(rows);
+    });
+});
+
+//update user
+app.put('/user',(req,res)=>{
+    const { id, username, email, phoneNumber, password, profile_image, dateJoined} = req.body;
+    mysqlConnection.query("UPDATE users SET username='"+ username +"',email='"+ email +"',phoneNumber='"+ phoneNumber +"',password='"+ password +"',profile_image='"+ profile_image +"'\
+    ,dateJoined='"+ dateJoined +"' WHERE id = ?",[id]
+     ,(error, rows, fields)=>{
+        if(error) console.log(error);
+        else res.json('Updated successfully');
+    });
+});
+
+//delete user by their id
+app.delete('/user',(req,res)=>{
+    //TODO: Remeber to remove the user profile image file from file system when you host the api to server
+    const { id } = req.query;
+    mysqlConnection.query('DELETE FROM users WHERE id = ?', [id], (error, rows, fields)=>{
         if(error) console.log(error);
         else res.json({message: 'Deleted Successfully'});
     });
