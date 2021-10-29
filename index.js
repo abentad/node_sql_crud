@@ -23,6 +23,7 @@ app.use(express.json());
 
 //routes
 //add new product
+//TODO: dont forget to port list of images row to this table
 app.post('/product',(req,res)=>{
     const { name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber} = req.body;
     mysqlConnection.query("INSERT INTO products(name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber)\
@@ -34,10 +35,26 @@ app.post('/product',(req,res)=>{
 });
 
 //get all products
+//TODO: paginate
 app.get('/products',(req,res)=>{
+    const { size } = req.query;
+    const page = req.query.page ? Number(req.query.page) : 1;
     mysqlConnection.query("SELECT * FROM products",(error, rows, fields)=>{
+        const resLength = rows.length;
+        const totalPages = Math.ceil(resLength / size);        
         if(error) console.log(error);
-        else res.json(rows);
+        if(page > totalPages) res.redirect('/products?page='+ encodeURIComponent(totalPages) + '&size='+ encodeURIComponent(size));
+        else if(page < 1)  res.redirect('/products?page='+ encodeURIComponent('1') + '&size='+ encodeURIComponent(size));
+        const startPoint = (page - 1) * size;
+        mysqlConnection.query(`SELECT * FROM products LIMIT ${startPoint},${size}`,(error, rows, fields)=>{
+            if(error) console.log(error);
+            let iterator = (page - 5) < 1 ? 1 : page - 5;
+            let endPoint = (iterator + 9) <= totalPages ? (iterator + 9) : page + (totalPages - page);
+            if(endPoint < (page + 4)){
+                iterator -= (page + 4) - totalPages;
+            }
+            res.json(rows.reverse());
+        });
     });
 });
 
