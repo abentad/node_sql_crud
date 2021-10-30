@@ -4,9 +4,6 @@ const productRoute = require('./routes/product');
 const usersRoute = require('./routes/user');
 const imagesRoute = require('./routes/image');
 
-
-
-
 //middle wares
 app.use(express.json());
 app.use('/products', productRoute);

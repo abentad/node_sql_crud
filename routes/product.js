@@ -4,9 +4,9 @@ const mysqlConnection = require('../utils/database');
 //add new product
 //TODO: dont forget to port list of images row to this table
 router.post('/',(req,res)=>{
-    const { name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber} = req.body;
-    mysqlConnection.query("INSERT INTO products(name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber)\
-     VALUES ('"+ name +"','"+price+"','" +description+"','"+category+"','"+datePosted+"','"+posterId+"','"+posterName+"','"+posterProfileAvatar+"','"+posterPhoneNumber+"')"
+    const { name, price, description, category, image, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber} = req.body;
+    mysqlConnection.query("INSERT INTO products(name, price, description, category, image, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber)\
+     VALUES ('"+ name +"','"+price+"','" +description+"','"+category+"','"+image+"','"+datePosted+"','"+posterId+"','"+posterName+"','"+posterProfileAvatar+"','"+posterPhoneNumber+"')"
      ,(error, rows, fields)=>{
         if(error) console.log(error);
         else res.json('Added successfully');
@@ -48,8 +48,8 @@ router.get('/',(req,res)=>{
 
 //update product
 router.put('/',(req,res)=>{
-    const { id, name, price, description, category, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber} = req.body;
-    mysqlConnection.query("UPDATE products SET name='"+ name +"',price='"+ price +"',description='"+ description +"',category='"+ category +"',datePosted='"+ datePosted +"'\
+    const { id, name, price, description, category, image, datePosted, posterId, posterName, posterProfileAvatar, posterPhoneNumber} = req.body;
+    mysqlConnection.query("UPDATE products SET name='"+ name +"',price='"+ price +"',description='"+ description +"',category='"+ category +"',image='"+ image +"',datePosted='"+ datePosted +"'\
     ,posterId='"+ posterId +"',posterName='"+ posterName +"',posterProfileAvatar='"+ posterProfileAvatar +"',posterPhoneNumber='"+ posterPhoneNumber +"' WHERE id = ?",[id]
      ,(error, rows, fields)=>{
         if(error) console.log(error);

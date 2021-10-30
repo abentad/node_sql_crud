@@ -1,18 +1,19 @@
 #add product
 ###
-POST http://localhost:3000/product HTTP/1.1
+POST http://localhost:3000/products HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"car",
+    "name":"Range rover",
     "price":"2000000",
     "description":"range rover car",
     "category":"car",
+    "image":"http://fdassfas/fadsfasd",
     "datePosted":"11/9/2021",
     "posterId":"12312jlkdfajsd",
     "posterName":"Abeni",
     "posterProfileAvatar":"http://fsadf/fadsf",
-    "posterPhoneNumber":"+251912345678"   
+    "posterPhoneNumber":"+251912345678"  
 }
 
 #get products
@@ -21,11 +22,11 @@ GET http://localhost:3000/products?page=1&size=20 HTTP/1.1
 
 #get specific product by id
 ###
-GET http://localhost:3000/product?id=2 HTTP/1.1
+GET http://localhost:3000/products?id=2 HTTP/1.1
 
 #update product
 ###
-PUT  http://localhost:3000/product HTTP/1.1
+PUT  http://localhost:3000/products HTTP/1.1
 Content-Type: application/json
 
 {
@@ -34,6 +35,7 @@ Content-Type: application/json
     "price":"2000000",
     "description":"range rover car",
     "category":"car",
+    "image":"http://fdassfas/fadsfasd",
     "datePosted":"11/9/2021",
     "posterId":"12312jlkdfajsd",
     "posterName":"Abeni",
@@ -43,7 +45,7 @@ Content-Type: application/json
 
 #Delete specific product by id
 ###
-DELETE http://localhost:3000/product?id=12 HTTP/1.1
+DELETE http://localhost:3000/products?id=12 HTTP/1.1
 
 
 #get product images by product id
@@ -61,11 +63,11 @@ Content-Type: application/json
 
 [
     {
-        "id": "34",
-        "url": "http://afdsafsda/fasdasdfs"
+        "id": "36",
+        "url": "http://afsddadfs/afdsafsd"
     },
     {
-        "id": "34",
+        "id": "36",
         "url": "http://fadsfadsa/afsdfasdf"
     }
 ]
