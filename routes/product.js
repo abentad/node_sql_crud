@@ -32,7 +32,7 @@ router.get('/',(req,res)=>{
             if(endPoint < (page + 4)){
                 iterator -= (page + 4) - totalPages;
             }
-            res.json(rows);
+            res.json({rows, totalPages});
         });
     });
 });
