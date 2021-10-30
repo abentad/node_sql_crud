@@ -46,14 +46,14 @@ app.get('/products',(req,res)=>{
         if(page > totalPages) res.redirect('/products?page='+ encodeURIComponent(totalPages) + '&size='+ encodeURIComponent(size));
         else if(page < 1)  res.redirect('/products?page='+ encodeURIComponent('1') + '&size='+ encodeURIComponent(size));
         const startPoint = (page - 1) * size;
-        mysqlConnection.query(`SELECT * FROM products LIMIT ${startPoint},${size}`,(error, rows, fields)=>{
+        mysqlConnection.query(`SELECT * FROM products ORDER BY id DESC LIMIT ${startPoint},${size}`,(error, rows, fields)=>{
             if(error) console.log(error);
             let iterator = (page - 5) < 1 ? 1 : page - 5;
             let endPoint = (iterator + 9) <= totalPages ? (iterator + 9) : page + (totalPages - page);
             if(endPoint < (page + 4)){
                 iterator -= (page + 4) - totalPages;
             }
-            res.json(rows.reverse());
+            res.json(rows);
         });
     });
 });
